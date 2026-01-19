@@ -15,146 +15,65 @@
         color: #ffffff;
         overflow-x: hidden;
       }
-      .font-serif {
-        font-family: 'Playfair Display', serif;
-      }
-      .text-gold {
-        color: #D4AF37;
-      }
-      .bg-gold {
-        background-color: #D4AF37;
-      }
-      .border-gold {
-        border-color: #D4AF37;
-      }
-      .glass-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(212, 175, 55, 0.2);
-      }
-      .gold-gradient {
-        background: linear-gradient(135deg, #D4AF37 0%, #F5E0A3 50%, #D4AF37 100%);
-      }
+      .font-serif { font-family: 'Playfair Display', serif; }
       .gold-text-gradient {
         background: linear-gradient(135deg, #D4AF37 0%, #F5E0A3 50%, #D4AF37 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(212, 175, 55, 0.15);
+      }
       
-      @keyframes gold-glow {
-        0% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
-        50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
-        100% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
+      @keyframes confetti-fall {
+        0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+        20% { opacity: 1; }
+        100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
       }
-      .glow-gold {
-        animation: gold-glow 4s infinite ease-in-out;
-      }
-
-      section:target h2 {
-        animation: section-title-glow 2.5s ease-out;
-      }
-
-      @keyframes section-title-glow {
-        0% { text-shadow: 0 0 0px transparent; }
-        30% { text-shadow: 0 0 15px #D4AF37, 0 0 30px #F5E0A3; }
-        100% { text-shadow: 0 0 0px transparent; }
-      }
-
-      @keyframes spotlight-pulse {
-        0%, 100% { opacity: 0; transform: scale(0.8) translate(0, 0); }
-        50% { opacity: 0.3; transform: scale(1.2) translate(10px, -10px); }
-      }
-
-      .spotlight {
-        position: fixed;
-        width: 60vw;
-        height: 60vw;
-        background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0) 70%);
-        border-radius: 50%;
+      .glitter {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #D4AF37;
         pointer-events: none;
-        z-index: 1;
-        filter: blur(50px);
-      }
-
-      .spotlight-1 { top: -10%; left: -10%; animation: spotlight-pulse 8s infinite ease-in-out; }
-      .spotlight-2 { bottom: -10%; right: -10%; animation: spotlight-pulse 10s infinite ease-in-out 2s; }
-      .spotlight-3 { top: 20%; right: 10%; animation: spotlight-pulse 12s infinite ease-in-out 4s; width: 40vw; height: 40vw; }
-
-      @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-        100% { transform: translateY(0px); }
-      }
-      .animate-float {
-        animation: float 3s ease-in-out infinite;
+        z-index: 0;
       }
 
       @keyframes move-forever {
         0% { transform: translate3d(-90px, 0, 0); }
         100% { transform: translate3d(85px, 0, 0); }
       }
-
-      .waves {
-        position: relative;
-        width: 100%;
-        height: 15vh;
-        margin-bottom: -7px;
-        min-height: 100px;
-        max-height: 150px;
-      }
-
-      .parallax > use {
-        animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
-      }
+      .waves { width: 100%; height: 80px; }
+      .parallax > use { animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite; }
       .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; }
       .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; }
       .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; }
       .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; }
 
-      @keyframes side-sway {
-        0%, 100% { transform: skewX(-2deg) scaleX(1); }
-        50% { transform: skewX(2deg) scaleX(1.1); }
+      .glow-gold {
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        transition: box-shadow 0.3s ease;
       }
-      
-      @keyframes shimmer-vertical {
-        0% { stop-offset: -100%; }
-        100% { stop-offset: 200%; }
+      .glow-gold:focus-within {
+        box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
       }
 
-      .side-wave-left {
-        animation: side-sway 10s infinite ease-in-out;
-        opacity: 0.25;
-        pointer-events: none;
-        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+      #root:empty::before {
+        content: "";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border: 3px solid #D4AF37;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
       }
-      
-      .side-wave-right {
-        animation: side-sway 12s infinite ease-in-out reverse;
-        opacity: 0.25;
-        pointer-events: none;
-        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
-      }
-
-      .shimmer-effect {
-        animation: shimmer-vertical 5s infinite linear;
-      }
-
-      @keyframes pulse-gold {
-        0% { transform: scale(1); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
-        50% { transform: scale(1.05); box-shadow: 0 15px 45px rgba(212, 175, 55, 0.6); }
-        100% { transform: scale(1); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
-      }
-      .ad-pulse {
-        animation: pulse-gold 3s infinite ease-in-out;
-      }
-
-      @keyframes slide-up {
-        from { transform: translateY(100%) scale(0.9); opacity: 0; }
-        to { transform: translateY(0) scale(1); opacity: 1; }
-      }
-      .animate-slide-up {
-        animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      }
+      @keyframes spin { to { transform: rotate(360deg); } }
     </style>
     <script type="importmap">
 {
@@ -162,9 +81,9 @@
     "react": "https://esm.sh/react@19.0.0",
     "react-dom": "https://esm.sh/react-dom@19.0.0",
     "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "@google/genai": "https://esm.sh/@google/genai@1.37.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.37.0"
   }
 }
 </script>

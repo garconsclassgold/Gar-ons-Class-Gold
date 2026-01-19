@@ -1,256 +1,116 @@
 
 import React, { useState, useEffect } from 'react';
 
-const WHATSAPP_NUMBER = "558297553087";
-const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
+const WHATSAPP_LINK = "https://wa.me/558297553087";
 const CHEF_ANDREIA_INSTA = "https://www.instagram.com/chefandreiaferreira/";
 
 const testimonials = [
-  "Equipe extremamente profissional, atendimento impecável!",
-  "Os garçons foram educados, rápidos e muito organizados.",
-  "Meu evento ficou ainda mais elegante com a Class Gold.",
-  "Pontualidade e excelência do começo ao fim.",
-  "Recomendo de olhos fechados, serviço de alto padrão.",
-  "Atendimento diferenciado, realmente classe gold.",
-  "Todos os convidados elogiaram os garçons.",
-  "Muito organizados e bem apresentados.",
-  "Profissionalismo que faz a diferença.",
-  "Equipe educada e muito atenciosa.",
-  "O melhor serviço de garçons que já contratei.",
-  "Tranquilidade total durante o evento.",
-  "Elegância e respeito com todos.",
-  "Preço justo e serviço impecável.",
-  "Com certeza contratarei novamente."
+  { text: "Equipe extremamente profissional, atendimento impecável!", author: "Mariana S." },
+  { text: "Os garçons foram educados, rápidos e muito organizados.", author: "João Pedro" },
+  { text: "Meu evento ficou ainda mais elegante com a Class Gold.", author: "Ana Clara" },
+  { text: "Pontualidade e excelência do começo ao fim.", author: "Ricardo M." },
+  { text: "Recomendo de olhos fechados, serviço de alto padrão.", author: "Beatriz" },
+  { text: "Atendimento diferenciado, realmente classe gold.", author: "Felipe G." }
 ];
 
 const GoldWave: React.FC = () => (
-  <div className="w-full overflow-hidden">
+  <div className="w-full overflow-hidden bg-black">
     <svg className="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
       <defs>
         <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
       </defs>
       <g className="parallax">
-        <use href="#gentle-wave" x="48" y="0" fill="rgba(212, 175, 55, 0.7)" />
+        <use href="#gentle-wave" x="48" y="0" fill="rgba(212, 175, 55, 0.3)" />
         <use href="#gentle-wave" x="48" y="3" fill="rgba(212, 175, 55, 0.5)" />
-        <use href="#gentle-wave" x="48" y="5" fill="rgba(212, 175, 55, 0.3)" />
+        <use href="#gentle-wave" x="48" y="5" fill="rgba(212, 175, 55, 0.2)" />
         <use href="#gentle-wave" x="48" y="7" fill="#D4AF37" />
       </g>
     </svg>
   </div>
 );
 
-const App: React.FC = () => {
-  const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    tipoEvento: '',
-    data: '',
-    convidados: '',
-    local: ''
-  });
-  const [isAdVisible, setIsAdVisible] = useState(false);
-  const [isAdClosed, setIsAdClosed] = useState(false);
-  const [isBotOpen, setIsBotOpen] = useState(false);
-
+const Confetti: React.FC = () => {
+  const [glitters, setGlitters] = useState<{ id: number; left: string; delay: string; duration: string }[]>([]);
+  
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!isAdClosed) setIsAdVisible(true);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [isAdClosed]);
+    const newGlitters = Array.from({ length: 40 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 5}s`,
+      duration: `${4 + Math.random() * 6}s`
+    }));
+    setGlitters(newGlitters);
+  }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {glitters.map(g => (
+        <div 
+          key={g.id} 
+          className="glitter" 
+          style={{ 
+            left: g.left, 
+            animation: `confetti-fall ${g.duration} linear infinite`, 
+            animationDelay: g.delay 
+          }} 
+        />
+      ))}
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  const [formData, setFormData] = useState({ nome: '', tipo: '', data: '', convidados: '', local: '' });
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const emailInfo = formData.email ? `*E-mail:* ${formData.email}%0A` : '';
-    const message = `Olá! Gostaria de um orçamento para meu evento.%0A%0A` +
-      `*Nome:* ${formData.nome}%0A` +
-      emailInfo +
-      `*Evento:* ${formData.tipoEvento}%0A` +
-      `*Data:* ${formData.data}%0A` +
-      `*Convidados:* ${formData.convidados}%0A` +
-      `*Local:* ${formData.local}`;
-    
-    window.open(`${WHATSAPP_LINK}?text=${message}`, '_blank');
-  };
-
-  const closeAd = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsAdVisible(false);
-    setIsAdClosed(true);
+    const msg = `Olá! Gostaria de solicitar um orçamento:%0A*Nome:* ${formData.nome}%0A*Evento:* ${formData.tipo}%0A*Data:* ${formData.data}%0A*Convidados:* ${formData.convidados}%0A*Local:* ${formData.local}`;
+    window.open(`${WHATSAPP_LINK}?text=${msg}`, '_blank');
   };
 
   return (
-    <div className="min-h-screen bg-black selection:bg-gold selection:text-black relative overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white selection:bg-yellow-600/30">
       
-      {/* EFEITO DE LUZES */}
-      <div className="spotlight spotlight-1"></div>
-      <div className="spotlight spotlight-2"></div>
-      <div className="spotlight spotlight-3"></div>
-
-      {/* ANÚNCIO FLUTUANTE */}
-      {isAdVisible && (
-        <div 
-          onClick={() => window.open(WHATSAPP_LINK, '_blank')}
-          className="fixed bottom-24 right-6 z-[200] w-[280px] md:w-[320px] bg-gold p-5 rounded-2xl shadow-2xl cursor-pointer ad-pulse animate-slide-up border-2 border-black/10 group"
-        >
-          <button 
-            onClick={closeAd}
-            className="absolute -top-3 -right-3 w-8 h-8 bg-black text-gold rounded-full flex items-center justify-center border-2 border-gold shadow-lg hover:bg-zinc-800 transition-colors z-10"
-          >
-            <i className="fas fa-times text-xs"></i>
-          </button>
-          
-          <div className="flex flex-col gap-1">
-            <span className="text-black/60 font-black text-[10px] uppercase tracking-widest block">
-              🔥 Promoção Especial 🔥
-            </span>
-            <h3 className="text-black font-serif text-2xl font-black leading-none mb-2">
-              RESERVE AGORA
-            </h3>
-            <p className="text-black/80 text-xs font-medium leading-tight mb-4">
-              Garanta a melhor equipe de garçons para seu evento com condições exclusivas hoje!
-            </p>
-            <div className="flex items-center justify-between bg-black/10 p-3 rounded-xl border border-black/5 group-hover:bg-black/20 transition-all">
-              <span className="text-black font-black text-[10px] uppercase tracking-tighter">
-                Fale conosco no WhatsApp
-              </span>
-              <i className="fab fa-whatsapp text-black text-xl"></i>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* GOLDIZINHO BOT */}
-      <div className="fixed bottom-6 right-6 z-[210] flex flex-col items-end gap-4">
-        {isBotOpen && (
-          <div className="w-72 bg-white rounded-3xl shadow-2xl overflow-hidden border border-gold/20 mb-2 animate-slide-up">
-            <div className="bg-black p-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 gold-gradient rounded-full flex items-center justify-center text-xl shadow-lg">
-                  🤖
-                </div>
-                <div>
-                  <h4 className="text-gold font-black text-xs tracking-widest">GOLDIZINHO</h4>
-                  <div className="flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                    <span className="text-[8px] text-white/60 uppercase font-black">Online</span>
-                  </div>
-                </div>
-              </div>
-              <button onClick={() => setIsBotOpen(false)} className="text-white/40 hover:text-white transition-colors">
-                <i className="fas fa-times text-xs"></i>
-              </button>
-            </div>
-            <div className="p-6 bg-slate-50">
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 text-slate-700 text-sm mb-6 leading-relaxed">
-                Olá! Sou o <span className="text-gold font-bold">Goldizinho</span> 🤖 <br /><br />
-                Posso ajudar você com um orçamento personalizado agora mesmo?
-              </div>
-              <a 
-                href={WHATSAPP_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full py-4 bg-green-500 hover:bg-green-600 text-white text-center rounded-2xl font-black text-xs tracking-widest transition-all shadow-xl shadow-green-200 active:scale-95"
-              >
-                <i className="fab fa-whatsapp mr-2 text-sm"></i>
-                FALAR COM IA
-              </a>
-            </div>
-          </div>
-        )}
-        
-        <button 
-          onClick={() => setIsBotOpen(!isBotOpen)}
-          className="w-16 h-16 gold-gradient rounded-full shadow-[0_10px_30px_rgba(212,175,55,0.4)] flex items-center justify-center text-3xl animate-float border-4 border-black group relative"
-        >
-          <span className="group-hover:scale-110 transition-transform">🤖</span>
-          {!isBotOpen && (
-            <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-2 border-black flex items-center justify-center text-[10px] font-black text-white">1</div>
-          )}
-        </button>
-      </div>
-
-      {/* ONDAS LATERAIS */}
-      <div className="fixed top-0 left-0 h-full w-24 md:w-40 z-0 hidden lg:block side-wave-left overflow-hidden pointer-events-none">
-        <svg viewBox="0 0 100 1000" preserveAspectRatio="none" className="h-full w-full">
-          <defs>
-            <linearGradient id="goldShimmerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#D4AF37" />
-              <stop offset="50%" stopColor="#FFF" className="shimmer-effect" />
-              <stop offset="100%" stopColor="#D4AF37" />
-            </linearGradient>
-            <linearGradient id="goldBaseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#B8860B" />
-              <stop offset="50%" stopColor="#D4AF37" />
-              <stop offset="100%" stopColor="#8B4513" />
-            </linearGradient>
-          </defs>
-          <path d="M0,0 Q60,250 15,500 T0,1000 L0,1000 L0,0 Z" fill="url(#goldBaseGrad)" opacity="0.8" />
-          <path d="M0,0 Q80,250 20,500 T0,1000 L0,1000 L0,0 Z" fill="url(#goldShimmerGrad)" opacity="0.4" />
-        </svg>
-      </div>
-      
-      <div className="fixed top-0 right-0 h-full w-24 md:w-40 z-0 hidden lg:block side-wave-right overflow-hidden pointer-events-none">
-        <svg viewBox="0 0 100 1000" preserveAspectRatio="none" className="h-full w-full rotate-180">
-          <path d="M0,0 Q60,250 15,500 T0,1000 L0,1000 L0,0 Z" fill="url(#goldBaseGrad)" opacity="0.8" />
-          <path d="M0,0 Q80,250 20,500 T0,1000 L0,1000 L0,0 Z" fill="url(#goldShimmerGrad)" opacity="0.4" />
-        </svg>
-      </div>
-
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-gold/20 py-4 px-6">
+      <header className="fixed top-0 left-0 right-0 z-50 glass-card py-4 px-8 border-b border-white/5">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <span className="font-serif text-2xl font-black gold-text-gradient tracking-tighter cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-              CLASS GOLD
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center gap-8 font-medium text-sm tracking-widest uppercase text-white/80">
-            <a href="#inicio" className="hover:text-gold transition-colors focus:text-gold">Início</a>
-            <a href="#sobrenos" className="hover:text-gold transition-colors focus:text-gold">Sobre Nós</a>
-            <a href="#parceria" className="hover:text-gold transition-colors focus:text-gold">Parceria</a>
-            <a href="#elogios" className="hover:text-gold transition-colors focus:text-gold">Elogios</a>
-            <a href="#orcamento" className="bg-gold text-black px-5 py-2 rounded font-bold hover:brightness-110 transition-all shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-              Orçamento
-            </a>
+          <span className="font-serif text-xl md:text-2xl font-black gold-text-gradient tracking-tighter">GARÇONS CLASS GOLD</span>
+          <nav className="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-[0.3em]">
+            <a href="#inicio" className="hover:text-yellow-500 transition-colors">Início</a>
+            <a href="#sobrenos" className="hover:text-yellow-500 transition-colors">A Equipe</a>
+            <a href="#parceria" className="hover:text-yellow-500 transition-colors">Gastronomia</a>
+            <a href="#elogios" className="hover:text-yellow-500 transition-colors">Vips</a>
+            <a href="#orcamento" className="bg-yellow-600 text-black px-5 py-2 rounded font-black hover:brightness-110 transition-all">Orçamento</a>
           </nav>
         </div>
       </header>
 
-      {/* Hero */}
-      <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
+      {/* Hero Section */}
+      <section id="inicio" className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2000" 
-            className="w-full h-full object-cover opacity-50" 
-            alt="Drinks"
+            className="w-full h-full object-cover opacity-50 scale-105" 
+            alt="Drink de Luxo"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/80"></div>
         </div>
-        
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <div className="w-24 h-1 bg-gold mx-auto rounded-full mb-8 glow-gold"></div>
-          <h2 className="font-serif text-6xl md:text-8xl font-black mb-6 leading-none gold-text-gradient">
+          <div className="w-20 h-1 bg-yellow-500 mx-auto rounded-full mb-8 shadow-[0_0_15px_rgba(234,179,8,0.5)]"></div>
+          <h1 className="font-serif text-5xl md:text-8xl font-black mb-6 gold-text-gradient leading-tight tracking-tight">
             Garçons Class Gold
-          </h2>
-          <p className="text-xl md:text-2xl text-slate-300 mb-10 font-light tracking-wide italic">
+          </h1>
+          <p className="text-lg md:text-2xl text-slate-300 font-light italic mb-10 leading-relaxed max-w-2xl mx-auto">
             “Excelência, elegância e atendimento de alto padrão para o seu evento.”
           </p>
-          <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <a 
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-10 py-5 bg-gold text-black font-black rounded-full shadow-[0_0_30px_rgba(212,175,55,0.5)] hover:scale-105 transition-all uppercase tracking-widest text-sm"
-            >
-              Começar agora
-            </a>
-          </div>
+          <a 
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-12 py-5 bg-gradient-to-r from-yellow-700 to-yellow-500 text-black font-black uppercase tracking-widest rounded-full shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:scale-105 transition-all active:scale-95"
+          >
+            Começar agora
+          </a>
         </div>
         <div className="absolute bottom-0 left-0 w-full z-20">
           <GoldWave />
@@ -258,45 +118,76 @@ const App: React.FC = () => {
       </section>
 
       {/* Sobre Nós */}
-      <section id="sobrenos" className="py-24 px-6 bg-zinc-950 relative border-t border-white/5">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-          <div className="flex-1 space-y-8">
+      <section id="sobrenos" className="py-32 px-6 bg-zinc-950">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="space-y-8">
             <div className="flex items-center gap-4">
-               <div className="w-12 h-[2px] bg-gold"></div>
-               <span className="uppercase tracking-[0.4em] text-gold font-bold text-xs">Nossa História</span>
+               <div className="h-[2px] w-12 bg-yellow-500"></div>
+               <span className="uppercase tracking-[0.5em] text-yellow-500 font-bold text-xs">A Arte de Servir</span>
             </div>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold leading-tight uppercase">Sobre <span className="gold-text-gradient">Nós</span></h2>
-            <p className="text-lg text-slate-400 leading-relaxed">
-              Somos a equipe <strong className="text-white">Garçons Class Gold</strong>, especializados em eventos sociais, festas particulares, casamentos e eventos corporativos. Nosso diferencial é a atenção aos detalhes e o treinamento constante para proporcionar o melhor serviço.
+            <h2 className="font-serif text-4xl md:text-6xl font-bold leading-tight uppercase">Equipe <span className="gold-text-gradient">Class Gold</span></h2>
+            <p className="text-slate-400 text-lg leading-relaxed">
+              Na <strong>Garçons Class Gold</strong>, cada evento é tratado como uma obra-prima. Nossa missão é oferecer mais do que um serviço de mesa; entregamos uma experiência de luxo onde a discrição e a agilidade caminham juntas.
+              <br/><br/>
+              Composta por profissionais rigorosamente selecionados e treinados nos mais altos padrões de etiqueta, nossa equipe é especialista em antecipar as necessidades dos convidados, garantindo que o fluxo do seu evento seja perfeito e ininterrupto.
             </p>
+            <p className="text-slate-400 text-lg leading-relaxed">
+              Seja em um casamento clássico, uma formatura vibrante ou um evento corporativo de grande porte, a postura impecável e o compromisso com a satisfação total são a nossa assinatura. Quando a excelência é o requisito, a Class Gold é a resposta.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-4 relative">
+            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=600" className="rounded-2xl border border-white/10 shadow-2xl translate-y-10" alt="Garçom Profissional" />
+            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=600" className="rounded-2xl border border-white/10 shadow-2xl" alt="Atendimento" />
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=600" className="rounded-2xl border border-white/10 shadow-2xl col-span-2 mt-6 h-56 object-cover" alt="Sofisticação" />
           </div>
         </div>
       </section>
 
-      {/* Parceria */}
-      <section id="parceria" className="py-24 px-6 bg-black relative border-t border-white/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="glass-card p-8 md:p-16 rounded-[3rem] flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6 italic">Buffet Chef<br/><span className="gold-text-gradient uppercase tracking-tighter">Andreia Ferreira</span></h2>
-              <p className="text-slate-400 text-lg mb-8">
-                Recomendamos o Buffet da <strong className="text-white">Chef Andreia Ferreira</strong> para harmonizar perfeitamente com nosso atendimento Gold.
+      {/* Buffet Andreia Ferreira */}
+      <section id="parceria" className="py-32 px-6 bg-black">
+        <div className="max-w-7xl mx-auto glass-card p-12 md:p-24 rounded-[4rem] border-yellow-500/20">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2">
+              <span className="text-yellow-500 font-bold uppercase tracking-[0.4em] text-xs block mb-8">Recomendação VIP</span>
+              <h2 className="font-serif text-4xl md:text-7xl font-bold mb-8 italic leading-none">Buffet Chef <span className="gold-text-gradient uppercase">Andreia Ferreira</span></h2>
+              <p className="text-slate-400 text-lg leading-relaxed mb-12">
+                A experiência Class Gold alcança sua plenitude quando aliada à gastronomia de elite da <strong>Chef Andreia Ferreira</strong>. Especialista em criar menus memoráveis, a Chef transforma ingredientes selecionados em pratos que são verdadeiras celebrações ao paladar.
+                <br/><br/>
+                Sua cozinha harmoniza perfeitamente com nosso estilo de atendimento: sofisticado, atento e inesquecível. Recomendamos o Buffet da Chef Andreia para quem busca o ápice da gastronomia e apresentação em seus eventos.
               </p>
-              <a href={CHEF_ANDREIA_INSTA} target="_blank" rel="noopener noreferrer" className="px-8 py-4 border-2 border-gold text-gold font-bold rounded-xl hover:bg-gold hover:text-black transition-all">Instagram da Chef</a>
+              <a href={CHEF_ANDREIA_INSTA} target="_blank" className="inline-flex items-center gap-4 px-10 py-5 border-2 border-yellow-500 text-yellow-500 font-bold rounded-2xl hover:bg-yellow-500 hover:text-black transition-all group">
+                Explorar Menu no Instagram 
+                <i className="fab fa-instagram text-2xl group-hover:scale-110 transition-transform"></i>
+              </a>
+            </div>
+            <div className="lg:w-1/2 grid grid-cols-2 gap-6">
+               <img src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80&w=400" className="rounded-3xl border border-white/10 shadow-2xl hover:scale-105 transition-transform" alt="Gastronomia 1" />
+               <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=400" className="rounded-3xl border border-white/10 shadow-2xl mt-12 hover:scale-105 transition-transform" alt="Gastronomia 2" />
+               <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=400" className="rounded-3xl border border-white/10 shadow-2xl hover:scale-105 transition-transform" alt="Gastronomia 3" />
+               <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&q=80&w=400" className="rounded-3xl border border-white/10 shadow-2xl mt-12 hover:scale-105 transition-transform" alt="Gastronomia 4" />
             </div>
           </div>
         </div>
       </section>
 
       {/* Elogios */}
-      <section id="elogios" className="py-24 px-6 bg-zinc-950 relative border-t border-white/5">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-16 uppercase">Elogios</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((quote, idx) => (
-              <div key={idx} className="glass-card p-8 rounded-3xl border-t-2 border-gold/30">
-                <p className="text-slate-300 italic mb-4">“{quote}”</p>
-                <span className="text-gold font-bold text-xs uppercase tracking-widest">Cliente Vip</span>
+      <section id="elogios" className="py-32 px-6 bg-zinc-950 relative overflow-hidden">
+        <Confetti />
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-20 uppercase tracking-tighter">Vozes de Quem Viveu o <span className="gold-text-gradient">Ouro</span></h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {testimonials.map((t, idx) => (
+              <div key={idx} className="glass-card p-12 rounded-[3rem] text-left hover:border-yellow-500/50 transition-all group">
+                <div className="flex gap-1 mb-8">
+                  {[...Array(5)].map((_, i) => (
+                    <i key={i} className="fas fa-star text-yellow-500 text-sm shadow-[0_0_10px_rgba(234,179,8,0.3)]"></i>
+                  ))}
+                </div>
+                <p className="text-slate-300 italic mb-10 leading-relaxed font-light text-lg">“{t.text}”</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-700 to-yellow-500 flex items-center justify-center font-black text-black text-xs">CG</div>
+                  <span className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">{t.author}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -304,43 +195,68 @@ const App: React.FC = () => {
       </section>
 
       {/* Orçamento */}
-      <section id="orcamento" className="py-24 px-6 bg-black relative border-t border-white/5">
+      <section id="orcamento" className="py-32 px-6 bg-black">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-12 uppercase">Orçamento</h2>
-          <div className="glass-card p-8 rounded-[2.5rem] border border-gold/20">
-            <form onSubmit={handleFormSubmit} className="space-y-6 text-left">
-              <input required name="nome" value={formData.nome} onChange={handleInputChange} placeholder="Seu Nome" className="w-full bg-white/5 border-b border-white/20 p-4 focus:border-gold text-white outline-none" />
-              <input name="email" value={formData.email} onChange={handleInputChange} placeholder="E-mail (Opcional)" className="w-full bg-white/5 border-b border-white/20 p-4 focus:border-gold text-white outline-none" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <select required name="tipoEvento" value={formData.tipoEvento} onChange={handleInputChange} className="w-full bg-zinc-900 border-b border-white/20 p-4 text-white outline-none">
-                  <option value="">Tipo de Evento</option>
-                  <option value="Casamento">Casamento</option>
-                  <option value="Aniversário">Aniversário</option>
-                  <option value="Empresarial">Empresarial</option>
-                </select>
-                <input required type="date" name="data" value={formData.data} onChange={handleInputChange} className="w-full bg-white/5 border-b border-white/20 p-4 text-white outline-none" />
+          <h2 className="font-serif text-4xl md:text-6xl font-bold mb-8 uppercase">Orçamento <span className="gold-text-gradient">Premium</span></h2>
+          <p className="text-slate-500 italic mb-16 text-lg">Garanta a melhor equipe do estado. Receba sua proposta exclusiva em minutos.</p>
+          
+          <div className="glass-card p-10 md:p-20 rounded-[4rem] border-yellow-500/20 glow-gold relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent"></div>
+            <form onSubmit={handleFormSubmit} className="space-y-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="text-left space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-black text-yellow-600 ml-4">Nome Completo</label>
+                  <input required placeholder="Como podemos te chamar?" value={formData.nome} onChange={e => setFormData({...formData, nome: e.target.value})} className="w-full bg-white/5 border-b border-white/10 p-4 outline-none focus:border-yellow-500 transition-colors text-white placeholder:text-white/20" />
+                </div>
+                <div className="text-left space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-black text-yellow-600 ml-4">Estilo do Evento</label>
+                  <select required value={formData.tipo} onChange={e => setFormData({...formData, tipo: e.target.value})} className="w-full bg-transparent border-b border-white/10 p-4 outline-none focus:border-yellow-500 transition-colors text-white/80">
+                    <option value="" className="bg-black">Selecione...</option>
+                    <option value="Casamento" className="bg-black">Casamento de Luxo</option>
+                    <option value="Formatura" className="bg-black">Formatura</option>
+                    <option value="Corporativo" className="bg-black">Evento Empresarial</option>
+                    <option value="Aniversário" className="bg-black">Aniversário / 15 Anos</option>
+                  </select>
+                </div>
+                <div className="text-left space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-black text-yellow-600 ml-4">Data Planejada</label>
+                  <input required type="date" value={formData.data} onChange={e => setFormData({...formData, data: e.target.value})} className="w-full bg-transparent border-b border-white/10 p-4 outline-none focus:border-yellow-500 transition-colors text-white/80" />
+                </div>
+                <div className="text-left space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-black text-yellow-600 ml-4">Volume de Convidados</label>
+                  <input required type="number" placeholder="Quantidade estimada" value={formData.convidados} onChange={e => setFormData({...formData, convidados: e.target.value})} className="w-full bg-white/5 border-b border-white/10 p-4 outline-none focus:border-yellow-500 transition-colors text-white placeholder:text-white/20" />
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input required type="number" name="convidados" value={formData.convidados} onChange={handleInputChange} placeholder="Nº Convidados" className="w-full bg-white/5 border-b border-white/20 p-4 text-white outline-none" />
-                <input required name="local" value={formData.local} onChange={handleInputChange} placeholder="Local do Evento" className="w-full bg-white/5 border-b border-white/20 p-4 text-white outline-none" />
+              <div className="text-left space-y-2">
+                <label className="text-[10px] uppercase tracking-widest font-black text-yellow-600 ml-4">Localização</label>
+                <input required placeholder="Onde será a celebração?" value={formData.local} onChange={e => setFormData({...formData, local: e.target.value})} className="w-full bg-white/5 border-b border-white/10 p-4 outline-none focus:border-yellow-500 transition-colors text-white placeholder:text-white/20" />
               </div>
-              <button type="submit" className="w-full py-6 bg-gold text-black font-black uppercase rounded-2xl">Pedir Orçamento</button>
+              <button type="submit" className="w-full py-8 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black font-black uppercase tracking-[0.3em] rounded-3xl hover:brightness-110 transition-all shadow-[0_15px_40px_rgba(212,175,55,0.3)] active:scale-95">
+                Solicitar via WhatsApp <i className="fab fa-whatsapp ml-3 text-xl"></i>
+              </button>
             </form>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-20 bg-black border-t border-white/5 text-center">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 gap-8">
+      <footer className="py-24 bg-black border-t border-white/5 text-center px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-16 mb-20">
           <div className="text-left">
-            <span className="font-serif text-3xl font-black gold-text-gradient block">Class Gold</span>
-            <p className="text-slate-500 text-xs uppercase font-bold">Excelência em Atendimento</p>
+            <span className="font-serif text-3xl md:text-4xl font-black gold-text-gradient block mb-3 tracking-tighter">GARÇONS CLASS GOLD</span>
+            <p className="text-slate-600 text-[11px] uppercase tracking-[0.5em] font-black italic">Excelência e Elegância Incomparáveis</p>
           </div>
-          <div className="flex gap-4">
-            <a href="https://www.instagram.com/garconsvip.gold/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold"><i className="fab fa-instagram"></i></a>
-            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold"><i className="fab fa-whatsapp"></i></a>
+          <div className="flex gap-8">
+            <a href="https://www.instagram.com/garconsvip.gold/" target="_blank" className="w-16 h-16 rounded-full border border-yellow-500/20 flex items-center justify-center text-yellow-500 hover:bg-yellow-500 hover:text-black hover:border-transparent transition-all shadow-lg">
+              <i className="fab fa-instagram text-2xl"></i>
+            </a>
+            <a href={WHATSAPP_LINK} target="_blank" className="w-16 h-16 rounded-full border border-yellow-500/20 flex items-center justify-center text-yellow-500 hover:bg-yellow-500 hover:text-black hover:border-transparent transition-all shadow-lg">
+              <i className="fab fa-whatsapp text-2xl"></i>
+            </a>
           </div>
+        </div>
+        <div className="text-[10px] text-slate-800 uppercase tracking-[0.6em] font-black border-t border-white/5 pt-12">
+          &copy; {new Date().getFullYear()} Garçons Class Gold – Excelência que brilha.
         </div>
       </footer>
     </div>
