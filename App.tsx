@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-const WHATSAPP_LINK = "https://wa.me/558297553087";
+const WHATSAPP_LINK = "https://wa.me/5582987553087";
 const CHEF_ANDREIA_INSTA = "https://www.instagram.com/chefandreiaferreira/";
 
 const testimonials = [
@@ -127,7 +127,7 @@ const App: React.FC = () => {
             </div>
             <h2 className="font-serif text-4xl md:text-6xl font-bold leading-tight uppercase">Equipe <span className="gold-text-gradient">Class Gold</span></h2>
             <p className="text-slate-400 text-lg leading-relaxed">
-              Na <strong>Garçons Class Gold</strong>, cada evento é tratado como uma obra-prima. Nossa missão é oferecer mais do que um serviço de mesa; entregamos uma experiência de luxo onde a discrição e a agilidade caminham juntas.
+              Na <strong>Garçons Class Gold</strong>, cada evento é treated como uma obra-prima. Nossa missão é oferecer mais do que um serviço de mesa; entregamos uma experiência de luxo onde a discrição e a agilidade caminham juntas.
               <br/><br/>
               Composta por profissionais rigorosamente selecionados e treinados nos mais altos padrões de etiqueta, nossa equipe é especialista em antecipar as necessidades dos convidados, garantindo que o fluxo do seu evento seja perfeito e ininterrupto.
             </p>
