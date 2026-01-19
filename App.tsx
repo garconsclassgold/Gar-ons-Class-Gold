@@ -25,16 +25,15 @@ const testimonials = [
 
 const GoldWave: React.FC = () => (
   <div className="w-full overflow-hidden">
-    <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
-    viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
+    <svg className="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
       <defs>
         <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
       </defs>
       <g className="parallax">
-        <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(212, 175, 55, 0.7)" />
-        <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(212, 175, 55, 0.5)" />
-        <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(212, 175, 55, 0.3)" />
-        <use xlinkHref="#gentle-wave" x="48" y="7" fill="#D4AF37" />
+        <use href="#gentle-wave" x="48" y="0" fill="rgba(212, 175, 55, 0.7)" />
+        <use href="#gentle-wave" x="48" y="3" fill="rgba(212, 175, 55, 0.5)" />
+        <use href="#gentle-wave" x="48" y="5" fill="rgba(212, 175, 55, 0.3)" />
+        <use href="#gentle-wave" x="48" y="7" fill="#D4AF37" />
       </g>
     </svg>
   </div>
@@ -88,12 +87,12 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-black selection:bg-gold selection:text-black relative overflow-x-hidden">
       
-      {/* EFEITO DE LUZES (SPOTLIGHTS) */}
+      {/* EFEITO DE LUZES */}
       <div className="spotlight spotlight-1"></div>
       <div className="spotlight spotlight-2"></div>
       <div className="spotlight spotlight-3"></div>
 
-      {/* ANÚNCIO FLUTUANTE PREMIUM */}
+      {/* ANÚNCIO FLUTUANTE */}
       {isAdVisible && (
         <div 
           onClick={() => window.open(WHATSAPP_LINK, '_blank')}
@@ -176,7 +175,7 @@ const App: React.FC = () => {
         </button>
       </div>
 
-      {/* ONDAS DOURADAS LATERAIS */}
+      {/* ONDAS LATERAIS */}
       <div className="fixed top-0 left-0 h-full w-24 md:w-40 z-0 hidden lg:block side-wave-left overflow-hidden pointer-events-none">
         <svg viewBox="0 0 100 1000" preserveAspectRatio="none" className="h-full w-full">
           <defs>
@@ -223,23 +222,23 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2000" 
             className="w-full h-full object-cover opacity-50" 
-            alt="Drinks de luxo"
+            alt="Drinks"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black"></div>
         </div>
         
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <div className="w-24 h-1 bg-gold mx-auto rounded-full mb-8 glow-gold"></div>
-          <h2 className="font-serif text-6xl md:text-8xl font-black mb-6 leading-none gold-text-gradient animate-in fade-in zoom-in duration-1000">
+          <h2 className="font-serif text-6xl md:text-8xl font-black mb-6 leading-none gold-text-gradient">
             Garçons Class Gold
           </h2>
-          <p className="text-xl md:text-2xl text-slate-300 mb-10 font-light tracking-wide italic max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-300 mb-10 font-light tracking-wide italic">
             “Excelência, elegância e atendimento de alto padrão para o seu evento.”
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
@@ -247,20 +246,18 @@ const App: React.FC = () => {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-10 py-5 bg-gold text-black font-black rounded-full shadow-[0_0_30px_rgba(212,175,55,0.5)] hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.7)] transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-sm"
+              className="px-10 py-5 bg-gold text-black font-black rounded-full shadow-[0_0_30px_rgba(212,175,55,0.5)] hover:scale-105 transition-all uppercase tracking-widest text-sm"
             >
               Começar agora
             </a>
           </div>
         </div>
-        
-        {/* Wave Divider at Bottom of Hero */}
         <div className="absolute bottom-0 left-0 w-full z-20">
           <GoldWave />
         </div>
       </section>
 
-      {/* About Section */}
+      {/* Sobre Nós */}
       <section id="sobrenos" className="py-24 px-6 bg-zinc-950 relative border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
           <div className="flex-1 space-y-8">
@@ -270,149 +267,82 @@ const App: React.FC = () => {
             </div>
             <h2 className="font-serif text-4xl md:text-5xl font-bold leading-tight uppercase">Sobre <span className="gold-text-gradient">Nós</span></h2>
             <p className="text-lg text-slate-400 leading-relaxed">
-              Somos a equipe <strong className="text-white">Garçons Class Gold</strong>, especializados em eventos sociais, festas particulares, casamentos, aniversários e eventos corporativos. Nosso diferencial é a atenção aos detalhes e o treinamento constante de nossa equipe para proporcionar o melhor serviço possível.
+              Somos a equipe <strong className="text-white">Garçons Class Gold</strong>, especializados em eventos sociais, festas particulares, casamentos e eventos corporativos. Nosso diferencial é a atenção aos detalhes e o treinamento constante para proporcionar o melhor serviço.
             </p>
-            <div className="p-6 border-l-2 border-gold bg-white/5 rounded-r-xl italic text-slate-300">
-              "Nosso compromisso é oferecer um atendimento profissional, educado e elegante, garantindo excelência do início ao fim."
-            </div>
-          </div>
-          <div className="flex-1 w-full relative">
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-gold/10 rounded-full blur-3xl"></div>
-            <div className="relative p-3 border border-gold/20 rounded-3xl overflow-hidden group glow-gold">
-              <img 
-                src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=1000" 
-                className="rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-1000 w-full object-cover aspect-[4/3] shadow-2xl" 
-                alt="Serviço Premium"
-              />
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Partnership Section */}
+      {/* Parceria */}
       <section id="parceria" className="py-24 px-6 bg-black relative border-t border-white/5">
         <div className="max-w-7xl mx-auto">
-          <div className="glass-card p-8 md:p-16 rounded-[3rem] border-gold/30 flex flex-col md:flex-row items-center gap-12 relative overflow-hidden">
-            <div className="flex-1 z-10">
-              <div className="inline-flex items-center gap-3 px-4 py-2 bg-gold/10 rounded-full border border-gold/20 mb-6">
-                <span className="text-gold text-xs font-black uppercase tracking-widest">Parceria de Elite</span>
-              </div>
+          <div className="glass-card p-8 md:p-16 rounded-[3rem] flex flex-col md:flex-row items-center gap-12">
+            <div className="flex-1">
               <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6 italic">Buffet Chef<br/><span className="gold-text-gradient uppercase tracking-tighter">Andreia Ferreira</span></h2>
-              <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-                Recomendamos o Buffet da <strong className="text-white">Chef Andreia Ferreira</strong> para harmonizar perfeitamente com nosso atendimento Gold. Sabor e elegância em cada detalhe.
+              <p className="text-slate-400 text-lg mb-8">
+                Recomendamos o Buffet da <strong className="text-white">Chef Andreia Ferreira</strong> para harmonizar perfeitamente com nosso atendimento Gold.
               </p>
-              <a 
-                href={CHEF_ANDREIA_INSTA}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 border-2 border-gold text-gold font-bold rounded-xl hover:bg-gold hover:text-black transition-all group"
-              >
-                <i className="fab fa-instagram text-xl"></i>
-                Ver Cardápio Oficial
-              </a>
-            </div>
-            <div className="flex-1 w-full z-10 grid grid-cols-2 gap-4">
-              <img src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80&w=400" className="rounded-2xl border border-gold/20 glow-gold" alt="Buffet 1" />
-              <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=400" className="rounded-2xl border border-gold/20 mt-8" alt="Buffet 2" />
+              <a href={CHEF_ANDREIA_INSTA} target="_blank" rel="noopener noreferrer" className="px-8 py-4 border-2 border-gold text-gold font-bold rounded-xl hover:bg-gold hover:text-black transition-all">Instagram da Chef</a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Elogios Section */}
-      <section id="elogios" className="py-24 px-6 bg-zinc-950 relative overflow-hidden border-t border-white/5">
-        <div className="max-w-7xl mx-auto relative z-10 text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4 italic uppercase">Elogios</h2>
-          <p className="text-gold tracking-[0.3em] uppercase text-sm font-bold mb-16">O que dizem sobre nosso padrão gold</p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+      {/* Elogios */}
+      <section id="elogios" className="py-24 px-6 bg-zinc-950 relative border-t border-white/5">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-16 uppercase">Elogios</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((quote, idx) => (
-              <div key={idx} className="glass-card p-8 rounded-3xl border-t-2 border-gold/30 hover:border-gold transition-all duration-500">
-                <p className="text-slate-300 italic mb-8 leading-relaxed font-light">“{quote}”</p>
-                <div className="flex items-center gap-4 pt-6 border-t border-white/5">
-                  <div className="w-10 h-10 rounded-full gold-gradient p-[1px]">
-                    <div className="w-full h-full bg-zinc-900 rounded-full flex items-center justify-center text-gold text-[10px] font-black">CG</div>
-                  </div>
-                  <h4 className="text-sm font-bold text-white uppercase tracking-widest">Cliente Vip</h4>
-                </div>
+              <div key={idx} className="glass-card p-8 rounded-3xl border-t-2 border-gold/30">
+                <p className="text-slate-300 italic mb-4">“{quote}”</p>
+                <span className="text-gold font-bold text-xs uppercase tracking-widest">Cliente Vip</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Orçamento Section */}
+      {/* Orçamento */}
       <section id="orcamento" className="py-24 px-6 bg-black relative border-t border-white/5">
-        <div className="max-w-4xl mx-auto relative z-10 text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4 uppercase">Orçamento</h2>
-          <p className="text-slate-400 italic mb-12">Receba uma proposta VIP em minutos para seu grande dia.</p>
-          
-          <div className="glass-card p-8 md:p-12 rounded-[2.5rem] border border-gold/20 glow-gold shadow-2xl">
-            <form onSubmit={handleFormSubmit} className="space-y-8 text-left">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase text-gold font-bold tracking-widest ml-1">Seu Nome *</label>
-                  <input required name="nome" value={formData.nome} onChange={handleInputChange} placeholder="Nome completo" className="w-full bg-white/5 border-b border-white/20 p-4 focus:outline-none focus:border-gold text-white" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase text-gold font-bold tracking-widest ml-1">E-mail (Opcional)</label>
-                  <input name="email" value={formData.email} onChange={handleInputChange} placeholder="exemplo@email.com" className="w-full bg-white/5 border-b border-white/20 p-4 focus:outline-none focus:border-gold text-white" />
-                </div>
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-12 uppercase">Orçamento</h2>
+          <div className="glass-card p-8 rounded-[2.5rem] border border-gold/20">
+            <form onSubmit={handleFormSubmit} className="space-y-6 text-left">
+              <input required name="nome" value={formData.nome} onChange={handleInputChange} placeholder="Seu Nome" className="w-full bg-white/5 border-b border-white/20 p-4 focus:border-gold text-white outline-none" />
+              <input name="email" value={formData.email} onChange={handleInputChange} placeholder="E-mail (Opcional)" className="w-full bg-white/5 border-b border-white/20 p-4 focus:border-gold text-white outline-none" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <select required name="tipoEvento" value={formData.tipoEvento} onChange={handleInputChange} className="w-full bg-zinc-900 border-b border-white/20 p-4 text-white outline-none">
+                  <option value="">Tipo de Evento</option>
+                  <option value="Casamento">Casamento</option>
+                  <option value="Aniversário">Aniversário</option>
+                  <option value="Empresarial">Empresarial</option>
+                </select>
+                <input required type="date" name="data" value={formData.data} onChange={handleInputChange} className="w-full bg-white/5 border-b border-white/20 p-4 text-white outline-none" />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase text-gold font-bold tracking-widest ml-1">Tipo de Evento *</label>
-                  <select required name="tipoEvento" value={formData.tipoEvento} onChange={handleInputChange} className="w-full bg-zinc-900 border-b border-white/20 p-4 focus:outline-none focus:border-gold text-white appearance-none">
-                      <option value="">Selecione...</option>
-                      <option value="Casamento">Casamento</option>
-                      <option value="Formatura">Formatura</option>
-                      <option value="Aniversário">Aniversário</option>
-                      <option value="Empresarial">Empresarial</option>
-                      <option value="Particular">Particular</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase text-gold font-bold tracking-widest ml-1">Data do Evento *</label>
-                  <input required type="date" name="data" value={formData.data} onChange={handleInputChange} className="w-full bg-white/5 border-b border-white/20 p-4 focus:outline-none focus:border-gold text-white" />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <input required type="number" name="convidados" value={formData.convidados} onChange={handleInputChange} placeholder="Nº Convidados" className="w-full bg-white/5 border-b border-white/20 p-4 text-white outline-none" />
+                <input required name="local" value={formData.local} onChange={handleInputChange} placeholder="Local do Evento" className="w-full bg-white/5 border-b border-white/20 p-4 text-white outline-none" />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase text-gold font-bold tracking-widest ml-1">Nº de Convidados *</label>
-                  <input required type="number" name="convidados" value={formData.convidados} onChange={handleInputChange} placeholder="Ex: 150" className="w-full bg-white/5 border-b border-white/20 p-4 focus:outline-none focus:border-gold text-white" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase text-gold font-bold tracking-widest ml-1">Local (Cidade/Bairro) *</label>
-                  <input required name="local" value={formData.local} onChange={handleInputChange} placeholder="Onde será o evento?" className="w-full bg-white/5 border-b border-white/20 p-4 focus:outline-none focus:border-gold text-white" />
-                </div>
-              </div>
-
-              <button type="submit" className="w-full py-6 bg-gold text-black font-black text-sm tracking-[0.2em] rounded-2xl hover:scale-[1.02] shadow-xl uppercase transition-all flex items-center justify-center gap-3">
-                <i className="fab fa-whatsapp text-lg"></i>
-                Solicitar Orçamento no WhatsApp
-              </button>
+              <button type="submit" className="w-full py-6 bg-gold text-black font-black uppercase rounded-2xl">Pedir Orçamento</button>
             </form>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-20 bg-black border-t border-white/5 text-center px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 mb-12">
+      <footer className="py-20 bg-black border-t border-white/5 text-center">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 gap-8">
           <div className="text-left">
-            <span className="font-serif text-3xl font-black gold-text-gradient block mb-2">Class Gold</span>
-            <p className="text-slate-500 text-xs tracking-widest font-bold uppercase">Excelência em Atendimento</p>
+            <span className="font-serif text-3xl font-black gold-text-gradient block">Class Gold</span>
+            <p className="text-slate-500 text-xs uppercase font-bold">Excelência em Atendimento</p>
           </div>
           <div className="flex gap-4">
-            <a href="https://www.instagram.com/garconsvip.gold/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-black transition-all"><i className="fab fa-instagram"></i></a>
-            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-black transition-all"><i className="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/garconsvip.gold/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold"><i className="fab fa-instagram"></i></a>
+            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold"><i className="fab fa-whatsapp"></i></a>
           </div>
         </div>
-        <p className="text-[10px] text-slate-600 uppercase tracking-widest font-bold">© Garçons Class Gold – O Padrão Ouro de Atendimento</p>
       </footer>
-
     </div>
   );
 };
